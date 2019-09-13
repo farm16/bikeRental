@@ -8,7 +8,7 @@ import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import SelectForm from '../SelectForm';
-
+import Switch from '@material-ui/core/Switch';
 // import CssBaseline from '@material-ui/core/CssBaseline';
 
 const useStyles = makeStyles(theme => ({
@@ -45,6 +45,15 @@ function getStepContent(stepIndex) {
 }
 
 function Form(props) {
+  const [state, setState] = React.useState({
+    checkedA: false,
+    checkedB: false
+  });
+
+  const handleChange = name => event => {
+    setState({ ...state, [name]: event.target.checked });
+  };
+
   useEffect(() => {
     console.log(props);
   }, [props]);
@@ -130,6 +139,16 @@ function Form(props) {
               <Typography className={classes.instructions}>
                 {getStepContent(activeStep)}
               </Typography>
+            </div>
+            <div className="col-md-12">
+              <h3>Activate Bike Insurance</h3>
+              <Switch
+                checked={state.checkedB}
+                onChange={handleChange('checkedB')}
+                value="checkedB"
+                color="primary"
+                inputProps={{ 'aria-label': 'primary checkbox' }}
+              />
             </div>
             <div className="col-md-12">
               <Button
