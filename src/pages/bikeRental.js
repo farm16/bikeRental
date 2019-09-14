@@ -53,8 +53,8 @@ function Form(props) {
     setState({ ...state, [name]: event.target.checked });
   };
   useEffect(() => {
-    console.log(props.checkout);
-  }, [props.checkout]);
+    console.log(props);
+  }, [props]);
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
   const steps = getSteps();

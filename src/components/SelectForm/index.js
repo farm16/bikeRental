@@ -5,17 +5,17 @@ import Fab from '@material-ui/core/Fab';
 import { getCheckout } from '../../actions/actions';
 import { connect } from 'react-redux';
 
-function SelectForm(props) {
-  const [count, setCount] = useState(0);
-  const [total, setTotal] = useState({ ...props.product });
-  function getTotal(product, newCount) {
-    console.log({ total, count });
-    props.getCheckout({ total, count });
-  }
-  // useEffect(() => {
-  //   console.log(props.checkout);
-  // }, [props.checkout]);
-
+function SelectForm({ checkout, getCheckout, product, products }) {
+  const [count, setCount] = useState(checkout[product.id - 1].count);
+  const [total, setTotal] = useState({ ...product });
+  console.log();
+  useEffect(() => {
+    function getTotal() {
+      console.log({ total, count });
+      getCheckout({ total, count });
+    }
+    getTotal();
+  }, [count, getCheckout, total]);
   return (
     <div className="col-md-12 col-12 py-1 px-md-auto px-0">
       <div className="container text-center p-0 m-0">
@@ -24,10 +24,7 @@ function SelectForm(props) {
             <div className="d-flex h-100 w-100">
               <div className="row justify-content-center align-self-center mx-auto w-100 text-right">
                 <Fab
-                  onClick={() => {
-                    setCount(count - 1);
-                    getTotal(props.product, count);
-                  }}
+                  onClick={() => setCount(count - 1)}
                   size="small"
                   aria-label="add"
                   className={
@@ -38,14 +35,11 @@ function SelectForm(props) {
                   <SubIcon />
                 </Fab>{' '}
                 <p className="p-0 m-0 m-auto ">
-                  {props.product.name}{' '}
+                  {product.name}{' '}
                   <span className=" h5 font-weight-bold"> {count}</span>
                 </p>
                 <Fab
-                  onClick={() => {
-                    setCount(count + 1);
-                    getTotal(props.product, count);
-                  }}
+                  onClick={() => setCount(count + 1)}
                   size="small"
                   aria-label="add"
                   className="bg-success border-0 text-white">
