@@ -7,15 +7,14 @@ import { connect } from 'react-redux';
 
 function SelectForm({ checkout, getCheckout, product, products }) {
   const [count, setCount] = useState(checkout[product.id - 1].count);
-  const [total, setTotal] = useState({ ...product });
+
   console.log();
   useEffect(() => {
     function getTotal() {
-      console.log({ total, count });
-      getCheckout({ total, count });
+      getCheckout({ item: product, count });
     }
     getTotal();
-  }, [count, getCheckout, total]);
+  }, [count, getCheckout, product]);
   return (
     <div className="col-md-12 col-12 py-1 px-md-auto px-0">
       <div className="container text-center p-0 m-0">

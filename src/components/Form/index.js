@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
-// import { getCheckOut } from '../../actions/actions';
 import { makeStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
@@ -9,7 +8,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import SelectForm from '../SelectForm';
 import Switch from '@material-ui/core/Switch';
-// import CssBaseline from '@material-ui/core/CssBaseline';
+import CheckoutBox from '../CheckoutBox.js';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -43,7 +42,7 @@ function getStepContent(stepIndex) {
   }
 }
 
-function Form(props) {
+function Form({ products }) {
   //pass props
   const [state, setState] = React.useState({
     checkedA: false,
@@ -52,9 +51,6 @@ function Form(props) {
   const handleChange = name => event => {
     setState({ ...state, [name]: event.target.checked });
   };
-  useEffect(() => {
-    console.log(props.checkout);
-  }, [props.checkout]);
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
   const steps = getSteps();
@@ -64,27 +60,24 @@ function Form(props) {
   function handleBack() {
     setActiveStep(prevActiveStep => prevActiveStep - 1);
   }
-  function handleReset() {
-    setActiveStep(0);
-  }
   function getContent() {
     switch (activeStep) {
       case 0:
         return (
-          <div className="row h-100 ">
+          <div className="row ">
             <div className="col-md-12">
               <Typography className={classes.instructions}>
                 {getStepContent(activeStep)}
               </Typography>
             </div>
-            {props.products.map((product, index) =>
+            {products.map((product, index) =>
               product.product_type === 'bike' ? (
                 <SelectForm
                   product={product}
                   key={index + product}></SelectForm>
               ) : null
             )}
-            <div className="col-md-12">
+            <div className="col-md-12  py-md-5 py-2">
               <Button
                 disabled={activeStep === 0}
                 onClick={handleBack}
@@ -105,14 +98,14 @@ function Form(props) {
                 {getStepContent(activeStep)}
               </Typography>
             </div>
-            {props.products.map((product, index) =>
+            {products.map((product, index) =>
               product.product_type === 'accessory' ? (
                 <SelectForm
                   product={product}
                   key={index + product}></SelectForm>
               ) : null
             )}
-            <div className="col-md-12">
+            <div className="col-md-12  py-md-5 py-2">
               <Button
                 disabled={activeStep === 0}
                 onClick={handleBack}
@@ -127,7 +120,7 @@ function Form(props) {
         );
       case 2:
         return (
-          <div className="row h-100 ">
+          <div className="row ">
             <div className="col-md-12">
               <Typography className={classes.instructions}>
                 {getStepContent(activeStep)}
@@ -143,7 +136,7 @@ function Form(props) {
                 inputProps={{ 'aria-label': 'primary checkbox' }}
               />
             </div>
-            <div className="col-md-12">
+            <div className="col-md-12  py-md-5 py-2">
               <Button
                 disabled={activeStep === 0}
                 onClick={handleBack}
@@ -162,43 +155,32 @@ function Form(props) {
           </div>
         );
       case steps.length:
-        return (
-          <div>
-            <Typography className={classes.instructions}>
-              All steps completed
-            </Typography>
-            <Button onClick={handleReset}>Reset</Button>
-          </div>
-        );
+        return <CheckoutBox />;
       default:
         return <div>Error</div>;
     }
   }
   return (
     <React.Fragment>
-      <div className="d-flex h-100 w-100">
+      {' '}
+      <div className="d-flex">
         <div className="row justify-content-center align-self-center mx-auto w-100">
           {/* ========================CENTER======================== */}
-          <div className="container border rounded">
+          <div className="container">
+            {' '}
             <div className="row ">
-              <div className="col-md-12 m-auto bg-light text-center py-2">
+              <div className="col-md-12 m-auto bg-light text-center py-md-5 py-2">
                 <h1>Rent A Bike</h1>
                 <p>(Follow the Steps to reserve your bike)</p>
               </div>
             </div>
-            <div className="row m-auto">
-              <div className="col-md-12 p-md-auto p-0 m-md-auto m-0 text-center ">
-                <div className="container d-flex h-100 w-100 px-md-auto px-0">
-                  <div
-                    style={{ height: '300px' }}
-                    className="row justify-content-center align-self-center mx-auto w-100">
-                    {getContent()}
-                  </div>
-                </div>
+            <div className="row">
+              <div className="col-md-12 m-auto text-center ">
+                {getContent()}
               </div>
             </div>
             <div className="row">
-              <div className="col-md-12 m-auto">
+              <div className="col-md-12 m-auto  py-md-5 py-2">
                 <Stepper activeStep={activeStep} alternativeLabel>
                   {steps.map(label => (
                     <Step key={label}>

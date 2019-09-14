@@ -1,7 +1,6 @@
 import ActionTypes from '../constants/ActionTypes';
 
 export const getCheckout = data => dispatch => {
-  console.log('hello');
   dispatch({
     type: ActionTypes.SET_CHECKOUT_USER,
     payload: data
